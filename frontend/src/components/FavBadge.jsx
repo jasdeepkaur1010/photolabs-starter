@@ -3,10 +3,14 @@ import FavIcon from './FavIcon';
 
 import '../styles/FavBadge.scss';
 
-const FavBadge = ({ isFavPhotoExist }) => {
+const FavBadge = ({ favourites }) => {
+  let isFavPhotoExist = false;
+  let selected = false;
+  { isFavPhotoExist = favourites.length ? !isFavPhotoExist : isFavPhotoExist }
+  { selected = favourites.length ? !selected : selected }
   return (
     <div className='fav-badge'>
-      <FavIcon displayAlert={!!isFavPhotoExist}/>
+      <FavIcon selected={!!selected} displayAlert={!!isFavPhotoExist}/>
     </div>
   ) 
 };
