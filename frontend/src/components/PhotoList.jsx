@@ -60,10 +60,10 @@ const PhotoList = (props) => {
   const photos = props.photos.map(photo => {
     return (
       <PhotoListItem
-      setModal={props.setModal}
+      photo={photo}
+      setModalData={props.setModalData}
       updatedFavourites={props.updatedFavourites}
       favourites={props.favourites}
-      // id={photo.id}
       photoId={photo.id}
       key={photo.id}
       username={photo.user.username}
@@ -74,7 +74,7 @@ const PhotoList = (props) => {
       />
     )
   })
-  // console.log(props);
+  
   return (
     <ul className="photo-list">
       {photos}

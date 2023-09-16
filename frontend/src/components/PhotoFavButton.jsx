@@ -10,13 +10,13 @@ function PhotoFavButton(props) {
   //   console.log(updatedFavourites);
   // } 
   const toggleFavouritePhoto = () => {
-    
+    // console.log(props.photoId,'photoid');
     props.updatedFavourites(props.photoId)
-    console.log(props.favourites)
+    // console.log(props.favourites)
   }
 
-  const colorCheck = props.favourites.includes(props.photoId);
-  
+  const colorCheck = (props.favourites && props.favourites.includes(props.photoId));
+  // console.log(colorCheck,'colorcheck');
   return (
     <div onClick={toggleFavouritePhoto} className="photo-list__fav-icon">
       <div className="photo-list__fav-icon-svg">
