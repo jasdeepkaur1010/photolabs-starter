@@ -60,6 +60,7 @@ const PhotoList = (props) => {
   const photos = props.photos.map(photo => {
     return (
       <PhotoListItem
+      setModal={props.setModal}
       updatedFavourites={props.updatedFavourites}
       favourites={props.favourites}
       // id={photo.id}

@@ -7,7 +7,7 @@ import { setSelectionRange } from '@testing-library/user-event/dist/utils';
 import photos from 'mocks/photos';
 import topics from 'mocks/topics';
 
-const HomeRoute = () => {
+const HomeRoute = (props) => {
   const [favourites, setFavourites] = useState([])
 // DATA OUTPUT will look like this [1,2,4,5,6,] <------ photoIDs
   const updatedFavourites = (photoId) => {
@@ -29,7 +29,7 @@ const HomeRoute = () => {
     <div className="home-route">
       <TopNavigationBar topics={topics} favourites={favourites} />
       {favourites}
-      <PhotoList photos={photos} updatedFavourites={updatedFavourites} favourites={favourites}/>
+      <PhotoList setModal={props.setModal} photos={photos} updatedFavourites={updatedFavourites} favourites={favourites}/>
     </div>
   );
 };
