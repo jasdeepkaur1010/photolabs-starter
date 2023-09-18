@@ -9,7 +9,7 @@ import PhotoFavButton from 'components/PhotoFavButton';
 const PhotoDetailsModal = (props) => {
 
   const { setModalData, modalPhotoData, favourites, updatedFavourites } = props;
-
+  
   return (
     <div className="photo-details-modal">
       <button className="photo-details-modal__close-button">

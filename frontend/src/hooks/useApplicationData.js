@@ -9,19 +9,26 @@ export const ACTIONS = {
   SET_PHOTO_DATA: 'SET_PHOTO_DATA',
   SET_TOPIC_DATA: 'SET_TOPIC_DATA',
   SELECT_PHOTO: 'SELECT_PHOTO',
-  DISPLAY_PHOTO_DETAILS: 'DISPLAY_PHOTO_DETAILS'
+  DISPLAY_PHOTO_DETAILS: 'DISPLAY_PHOTO_DETAILS',
+  GET_PHOTOS_BY_TOPICS: 'GET_PHOTOS_BY_TOPICS'
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.FAV_PHOTO_ADDED:
-      return [...state, action.photoId];
+      return [...state, action.payload];
     case ACTIONS.FAV_PHOTO_REMOVED:
-      return state.filter((photoId) => photoId !== action.photoId);
+      return state.filter((photoId) => photoId !== action.payload);
     case ACTIONS.SHOW_MODAL:
-      return action.modalState;
+      return action.payload;
     case ACTIONS.MODAL_PHOTO_DATA:
-      return action.photo;
+      return action.payload;
+    case  ACTIONS.SET_PHOTO_DATA:
+      return { ...state, photoData: action.payload };
+    case ACTIONS.SET_TOPIC_DATA:
+      return {...state, topicData: action.payload };
+    case ACTIONS.GET_PHOTOS_BY_TOPICS:
+      return { ...state, photoData: action.payload };
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -31,23 +38,55 @@ const reducer = (state, action) => {
 
 const useApplicationData = () => {
 
+  const initialState = {
+    photoData: [],
+    topicData: []
+  };
   const [favourites, dispatch1] = useReducer(reducer, [])
   const [modal, dispatch2] = useReducer(reducer, false);
   const [modalPhotoData, dispatch3] = useReducer(reducer, {});
+  const [fetchData, dispatch4] = useReducer(reducer, initialState);
+  
+  const fetchAllPhoto = () => {
+    fetch('/api/photos')
+    .then(res => res.json())
+    .then((data) => dispatch4({ type: ACTIONS.SET_PHOTO_DATA, payload: data }))
+  }
+  useEffect(() => {
+    fetchAllPhoto();
+  }, []);
 
+  useEffect(() => {
+    fetch('api/topics')
+    .then(res => res.json())
+    .then((data) => dispatch4({ type: ACTIONS.SET_TOPIC_DATA, payload: data }))
+  }, []);
+
+  const photosByTopic = (data, topic) => {
+    if(data) {
+      fetch(`/api/topics/photos/${topic.id}`)
+      .then(res => res.json())
+      .then((data) => dispatch4({ type: ACTIONS.GET_PHOTOS_BY_TOPICS, payload: data}));
+    } else {
+      fetchAllPhoto();
+    }
+  };
+  
   const setModalData = (modalState, photo) => {
-    dispatch2({ type: ACTIONS.SHOW_MODAL, modalState: modalState });
-    dispatch3({ type: ACTIONS.MODAL_PHOTO_DATA, photo: photo });
+    dispatch2({ type: ACTIONS.SHOW_MODAL, payload: modalState });
+    dispatch3({ type: ACTIONS.MODAL_PHOTO_DATA, payload: photo });
+    console.log(photo, 'photo');
     // setModal(modalState);
     // setModalPhotoData(photo);
   }
+  console.log(modalPhotoData, 'modalState');
   // DATA OUTPUT will look like this [1,2,4,5,6,] <------ photoIDs
   const updatedFavourites = (photoId) => {
     // check if the photoIds exist in the array first. 
     // if they exist remove them with the filter function then add that to state
     if (favourites.includes(photoId)) {
       console.log('removed');
-      dispatch1({ type: ACTIONS.FAV_PHOTO_REMOVED, photoId: photoId });
+      dispatch1({ type: ACTIONS.FAV_PHOTO_REMOVED, payload: photoId });
       // const updatedArray = [...favourites].filter((photo) => photoId !== photo)
       // setFavourites(updatedArray);
       return;
@@ -55,19 +94,18 @@ const useApplicationData = () => {
     console.log('added');
     // if the photoID doesnt exist in the array add it to state 
     // setFavourites(prev => [...prev, photoId]);
-    dispatch1({ type: ACTIONS.FAV_PHOTO_ADDED, photoId: photoId });
+    dispatch1({ type: ACTIONS.FAV_PHOTO_ADDED, payload: photoId });
 
   }
-  useEffect(() => {
-    console.log(favourites);
-  }, [favourites]);
 
   return {
     modal,
     modalPhotoData,
     updatedFavourites,
     favourites,
-    setModalData
+    setModalData,
+    fetchData,
+    photosByTopic
   };
 };
 

@@ -22,12 +22,17 @@ const sampleDataForTopicList = [
 ];
 
 const TopicList = (props) => {
+
+  const { photosByTopic } = props;
+
   const topics = props.topics.map(topic => {
     return (
       <TopicListItem
+      topic={topic}
       id={topic.id}
       key={topic.id}
       title={topic.title}
+      photosByTopic={photosByTopic}
       />
     )
   })

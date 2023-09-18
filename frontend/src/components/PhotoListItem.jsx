@@ -5,7 +5,7 @@ import "../styles/PhotoListItem.scss";
 const PhotoListItem = (props) => {
 
   const { setModalData, photo } = props;
-
+  
   return (
     <div className="photo-list__item">
       <PhotoFavButton updatedFavourites={props.updatedFavourites} photoId={props.photoId} favourites={props.favourites} />

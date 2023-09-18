@@ -8,12 +8,13 @@ import photos from 'mocks/photos';
 import topics from 'mocks/topics';
 
 const HomeRoute = (props) => {
+  const { photosByTopic } = props;
   
   return (
     <div className="home-route">
-      <TopNavigationBar topics={topics} favourites={props.favourites} />
+      <TopNavigationBar topics={props.topics} favourites={props.favourites} photosByTopic={photosByTopic} />
       {props.favourites}
-      <PhotoList setModalData={props.setModalData} photos={photos} updatedFavourites={props.updatedFavourites} favourites={props.favourites}/>
+      <PhotoList setModalData={props.setModalData} photos={props.photos} updatedFavourites={props.updatedFavourites} favourites={props.favourites} photosByTopic={photosByTopic} />
     </div>
   );
 };
