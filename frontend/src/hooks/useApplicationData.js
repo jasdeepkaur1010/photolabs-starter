@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useEffect, useReducer } from 'react';
 
 export const ACTIONS = {
@@ -23,10 +22,10 @@ const reducer = (state, action) => {
       return action.payload;
     case ACTIONS.MODAL_PHOTO_DATA:
       return action.payload;
-    case  ACTIONS.SET_PHOTO_DATA:
+    case ACTIONS.SET_PHOTO_DATA:
       return { ...state, photoData: action.payload };
     case ACTIONS.SET_TOPIC_DATA:
-      return {...state, topicData: action.payload };
+      return { ...state, topicData: action.payload };
     case ACTIONS.GET_PHOTOS_BY_TOPICS:
       return { ...state, photoData: action.payload };
     default:
@@ -46,11 +45,11 @@ const useApplicationData = () => {
   const [modal, dispatch2] = useReducer(reducer, false);
   const [modalPhotoData, dispatch3] = useReducer(reducer, {});
   const [fetchData, dispatch4] = useReducer(reducer, initialState);
-  
+
   const fetchAllPhoto = () => {
     fetch('/api/photos')
-    .then(res => res.json())
-    .then((data) => dispatch4({ type: ACTIONS.SET_PHOTO_DATA, payload: data }))
+      .then(res => res.json())
+      .then((data) => dispatch4({ type: ACTIONS.SET_PHOTO_DATA, payload: data }))
   }
   useEffect(() => {
     fetchAllPhoto();
@@ -58,42 +57,32 @@ const useApplicationData = () => {
 
   useEffect(() => {
     fetch('api/topics')
-    .then(res => res.json())
-    .then((data) => dispatch4({ type: ACTIONS.SET_TOPIC_DATA, payload: data }))
+      .then(res => res.json())
+      .then((data) => dispatch4({ type: ACTIONS.SET_TOPIC_DATA, payload: data }))
   }, []);
 
   const photosByTopic = (data, topic) => {
-    if(data) {
+    if (data) {
       fetch(`/api/topics/photos/${topic.id}`)
-      .then(res => res.json())
-      .then((data) => dispatch4({ type: ACTIONS.GET_PHOTOS_BY_TOPICS, payload: data}));
+        .then(res => res.json())
+        .then((data) => dispatch4({ type: ACTIONS.GET_PHOTOS_BY_TOPICS, payload: data }));
     } else {
       fetchAllPhoto();
     }
   };
-  
+
   const setModalData = (modalState, photo) => {
     dispatch2({ type: ACTIONS.SHOW_MODAL, payload: modalState });
     dispatch3({ type: ACTIONS.MODAL_PHOTO_DATA, payload: photo });
-    console.log(photo, 'photo');
-    // setModal(modalState);
-    // setModalPhotoData(photo);
   }
-  console.log(modalPhotoData, 'modalState');
-  // DATA OUTPUT will look like this [1,2,4,5,6,] <------ photoIDs
   const updatedFavourites = (photoId) => {
     // check if the photoIds exist in the array first. 
     // if they exist remove them with the filter function then add that to state
     if (favourites.includes(photoId)) {
-      console.log('removed');
       dispatch1({ type: ACTIONS.FAV_PHOTO_REMOVED, payload: photoId });
-      // const updatedArray = [...favourites].filter((photo) => photoId !== photo)
-      // setFavourites(updatedArray);
       return;
     }
-    console.log('added');
     // if the photoID doesnt exist in the array add it to state 
-    // setFavourites(prev => [...prev, photoId]);
     dispatch1({ type: ACTIONS.FAV_PHOTO_ADDED, payload: photoId });
 
   }
