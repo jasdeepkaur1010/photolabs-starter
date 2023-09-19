@@ -5,8 +5,8 @@ import '../styles/FavBadge.scss';
 
 const FavBadge = ({ favourites }) => {
 
-  const isFavPhotoExist = false;
-  const selected = false;
+  let isFavPhotoExist = false;
+  let selected = false;
 
   { isFavPhotoExist = favourites.length ? !isFavPhotoExist : isFavPhotoExist }
   { selected = favourites.length ? !selected : selected }

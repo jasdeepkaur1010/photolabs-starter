@@ -11,7 +11,6 @@ const HomeRoute = (props) => {
   return (
     <div className="home-route">
       <TopNavigationBar topics={props.topics} favourites={props.favourites} photosByTopic={photosByTopic} />
-      {props.favourites}
       <PhotoList setModalData={props.setModalData} photos={props.photos} updatedFavourites={props.updatedFavourites} favourites={props.favourites} photosByTopic={photosByTopic} />
     </div>
   );
