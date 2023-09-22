@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './App.scss';
 import HomeRoute from 'routes/HomeRoute';
@@ -19,7 +19,7 @@ const App = () => {
   return (
     <div className="App">
       <HomeRoute setModalData={setModalData} updatedFavourites={updatedFavourites} favourites={favourites} photos={fetchData.photoData} topics={fetchData.topicData} photosByTopic={photosByTopic}/>
-      {modal && <PhotoDetailsModal setModalData={setModalData} modalPhotoData={modalPhotoData} updatedFavourites={updatedFavourites} favourites={favourites} />}
+      {modal && <PhotoDetailsModal fetchData={fetchData} setModalData={setModalData} modalPhotoData={modalPhotoData} updatedFavourites={updatedFavourites} favourites={favourites} />}
     </div>
   );
 };

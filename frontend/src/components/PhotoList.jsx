@@ -3,9 +3,7 @@ import PhotoListItem from "./PhotoListItem";
 import "../styles/PhotoList.scss";
 
 const PhotoList = (props) => {
-
   const photos = props.photos.map(photo => {
-    
     return (
       <PhotoListItem
         photo={photo}
@@ -22,7 +20,6 @@ const PhotoList = (props) => {
       />
     )
   })
-
   return (
     <ul className="photo-list">
       {photos}

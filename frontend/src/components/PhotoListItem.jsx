@@ -9,7 +9,9 @@ const PhotoListItem = (props) => {
   return (
     <div className="photo-list__item">
       <PhotoFavButton updatedFavourites={props.updatedFavourites} photoId={props.photoId} favourites={props.favourites} />
-      <img className="photo-list__image" onClick={() => setModalData(true, photo)} src={photo.urls.regular} alt="image" />
+      <img className="photo-list__image" onClick={() => {
+        setModalData(true, photo);
+        }} src={photo.urls.regular} alt="image" />
       <div className="photo-list__user-details">
         <img className="photo-list__user-profile" src={props.profile} />
         <div>
